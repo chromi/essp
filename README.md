@@ -191,3 +191,69 @@ congestion-avoidance, if relevant.
 ## Tests
 
 Coming soon.
+
+![Figure 1a](results/f1a-oneflow-100mbps-20ms-std.png)
+*Figure 1a:*
+
+![Figure 1b](results/f1b-oneflow-100mbps-20ms-essp.png)
+*Figure 1b:*
+
+![Figure 2a](results/f2a-oneflow-1000mbps-20ms-std.png)
+*Figure 2a:*
+
+![Figure 2b](results/f2b-oneflow-1000mbps-20ms-essp.png)
+*Figure 2b:*
+
+![Figure 3a](results/f3a-oneflow-10000mbps-20ms-std.png)
+*Figure 3a:*
+
+![Figure 3b](results/f3b-oneflow-10000mbps-20ms-essp.png)
+*Figure 3b:*
+
+[Figure 4a](results/f4a-oneflow-10000mbps-20ms-essp.png)
+*Figure 4a:*
+
+[Figure 4b](results/f4b-twoflow-100mbps-20ms-essp.png)
+*Figure 4b:*
+
+[Figure 5a](results/f5a-twoflow-1000mbps-20ms-std.png)
+*Figure 5a:*
+
+[Figure 5b](results/f5b-twoflow-1000mbps-20ms-essp.png)
+*Figure 5b:*
+
+[Figure 6a](results/f6a-twoflow-10000mbps-20ms-std.png)
+*Figure 6a:*
+
+[Figure 6b](results/f6b-twoflow-10000mbps-20ms-essp.png)
+*Figure 6b:*
+
+[Figure 7a](results/f7a-oneflow-100mbps-1ms-std.png)
+*Figure 7a:*
+
+[Figure 7b](results/f7b-oneflow-100mbps-1ms-essp.png)
+*Figure 7b:*
+
+[Figure 8a](results/f8a-oneflow-1000mbps-1ms-std.png)
+*Figure 8a:*
+
+[Figure 8b](results/f8b-oneflow-1000mbps-1ms-essp.png)
+*Figure 8b:*
+
+[Figure 9a](results/f9a-oneflow-100mbps-160ms-std.png)
+*Figure 9a:*
+
+[Figure 9b](results/f9b-oneflow-100mbps-160ms-essp.png)
+*Figure 9b:*
+
+[Figure 10a](results/f10a-oneflow-100mbps-160ms-std.png)
+*Figure 10a:*
+
+[Figure 10b](results/f10b-oneflow-100mbps-160ms-essp.png)
+*Figure 10b:*
+
+[Figure 11a](results/f11a-oneflow-100mbps-80ms-essp.png)
+*Figure 11a:*
+
+[Figure 11b](results/f11b-oneflow-100mbps-80ms-essp-sce.png)
+*Figure 11b:*
