@@ -1,0 +1,6 @@
+0.284013 [0]: flow:0 slow-start exit CE cwnd:29306796 cwnd0:58613592
+2.000000 [3]: flow:0 bytes 2205688552 rate 8822.754027 Mbps
+2.000000 [3]: total  bytes 2205688552 rate 8822.754027 Mbps
+2.000000 [3]: receiver ACK ratio:1.000000 CE:28106 SCE:0
+2.000000 [3]: sim performance: 98399 packets/sec
+2.000000 [0]: elapsed: 14.944081268s
