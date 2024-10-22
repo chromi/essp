@@ -250,11 +250,11 @@ Unless otherwise noted:
 ![Figure 9b](results/f9b-oneflow-100mbps-160ms-essp.png)
 *Figure 9b: One flow, 100 Mbps, 160 ms RTT, ESSP*
 
-![Figure 10a](results/f10a-oneflow-100mbps-160ms-std.png)
-*Figure 10a: One flow, 100 Mbps, 160 ms RTT, standard slow start*
+![Figure 10a](results/f10a-oneflow-1000mbps-160ms-std.png)
+*Figure 10a: One flow, 1000 Mbps, 160 ms RTT, standard slow start*
 
-![Figure 10b](results/f10b-oneflow-100mbps-160ms-essp.png)
-*Figure 10b: One flow, 100 Mbps, 160 ms RTT, ESSP*
+![Figure 10b](results/f10b-oneflow-1000mbps-160ms-essp.png)
+*Figure 10b: One flow, 1000 Mbps, 160 ms RTT, ESSP*
 
 ![Figure 11a](results/f11a-oneflow-100mbps-80ms-essp.png)
 *Figure 11a: One non-SCE flow, 100 Mbps, 80 ms RTT, ESSP, DelTiC AQM*
