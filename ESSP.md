@@ -295,13 +295,13 @@ pacing enabled.
 *Figure 9a: One flow, 100 Mbps, 160 ms RTT, standard slow start
 ([log](results/f9a-oneflow-100mbps-160ms-std.txt))*
 
-![Figure 9b](results/f9b-oneflow-100mbps-160ms-hspp.png)
-*Figure 9b: One flow, 100 Mbps, 160 ms RTT, HyStart++
-([log](results/f9b-oneflow-100mbps-160ms-hspp.txt))*
+![Figure 9b](results/f9b-oneflow-100mbps-160ms-essp.png)
+*Figure 9b: One flow, 100 Mbps, 160 ms RTT, ESSP
+([log](results/f9b-oneflow-100mbps-160ms-essp.txt))*
 
-![Figure 9c](results/f9c-oneflow-100mbps-160ms-essp.png)
-*Figure 9c: One flow, 100 Mbps, 160 ms RTT, ESSP
-([log](results/f9c-oneflow-100mbps-160ms-essp.txt))*
+![Figure 9c](results/f9c-oneflow-100mbps-160ms-hspp.png)
+*Figure 9c: One flow, 100 Mbps, 160 ms RTT, HyStart++
+([log](results/f9c-oneflow-100mbps-160ms-hspp.txt))*
 
 ---
 
@@ -309,13 +309,13 @@ pacing enabled.
 *Figure 10a: One flow, 1000 Mbps, 160 ms RTT, standard slow start
 ([log](results/f10a-oneflow-1000mbps-160ms-std.txt))*
 
-![Figure 10b](results/f10b-oneflow-1000mbps-160ms-hspp.png)
-*Figure 10b: One flow, 1000 Mbps, 160 ms RTT, HyStart++
-([log](results/f10b-oneflow-1000mbps-160ms-hspp.txt))*
+![Figure 10b](results/f10b-oneflow-1000mbps-160ms-essp.png)
+*Figure 10b: One flow, 1000 Mbps, 160 ms RTT, ESSP
+([log](results/f10b-oneflow-1000mbps-160ms-essp.txt))*
 
-![Figure 10c](results/f10c-oneflow-1000mbps-160ms-essp.png)
-*Figure 10c: One flow, 1000 Mbps, 160 ms RTT, ESSP
-([log](results/f10c-oneflow-1000mbps-160ms-essp.txt))*
+![Figure 10c](results/f10c-oneflow-1000mbps-160ms-hspp.png)
+*Figure 10c: One flow, 1000 Mbps, 160 ms RTT, HyStart++
+([log](results/f10c-oneflow-1000mbps-160ms-hspp.txt))*
 
 ### SCE Marking
 
