@@ -16,5 +16,5 @@
 30.000090 [3]: flow:1 bytes 123981052 rate 33.061514 Mbps
 30.000090 [3]: total  bytes 364461104 rate 97.189336 Mbps
 30.000090 [3]: receiver ACK ratio:1.000000 CE:3377 SCE:0
-30.000090 [3]: sim performance: 70669 packets/sec
-30.000090 [0]: elapsed: 3.439111169s
+30.000090 [3]: sim performance: 70987 packets/sec
+30.000090 [0]: elapsed: 3.423030902s
