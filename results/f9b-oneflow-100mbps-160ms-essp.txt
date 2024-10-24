@@ -5,10 +5,10 @@
 2.100204 [0]: flow:0 essp advance stage:4 k:15 scale:1.181 cwnd:2307312->2146233 rate:140907432->117963340 minRTT:160004160 rtt:172012721 exit:false (CE)
 2.291364 [0]: flow:0 essp advance stage:5 k:25 scale:1.107 cwnd:2300011->2059611 rate:114686256->96279796 minRTT:160004160 rtt:178680000 exit:false (CE)
 2.520084 [0]: flow:0 essp advance stage:6 k:41 scale:1.065 cwnd:2170006->2018644 rate:111776909->99981011 minRTT:160004160 rtt:172001556 exit:false (CE)
-2.931924 [0]: flow:0 essp advance stage:7 k:67 scale:1.039 cwnd:2139852->1990610 rate:106006808->185225455 minRTT:160004160 rtt:172000144 exit:true (CE)
+2.931924 [0]: flow:0 essp advance stage:7 k:67 scale:1.039 cwnd:2139852->1990610 rate:106006808->92612727 minRTT:160004160 rtt:172000144 exit:true (CE)
 2.931924 [0]: flow:0 slow-start exit CE cwnd:1990610 cwnd0:1990610
-5.000004 [3]: flow:0 bytes 45675052 rate 73.080022 Mbps
-5.000004 [3]: total  bytes 45675052 rate 73.080022 Mbps
-5.000004 [3]: receiver ACK ratio:1.000000 CE:8877 SCE:0
-5.000004 [3]: sim performance: 67377 packets/sec
-5.000004 [0]: elapsed: 452.115652ms
+5.000067 [3]: flow:0 bytes 45501052 rate 72.800703 Mbps
+5.000067 [3]: total  bytes 45501052 rate 72.800703 Mbps
+5.000067 [3]: receiver ACK ratio:1.000000 CE:8877 SCE:0
+5.000067 [3]: sim performance: 66317 packets/sec
+5.000067 [0]: elapsed: 457.72244ms
