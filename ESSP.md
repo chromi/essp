@@ -200,9 +200,9 @@ quickly try new ideas.  These simulations may not reflect real world results
 exactly, but they illustrate behaviors that do occur in reality in a similar
 way.
 
-Unless otherwise noted, all tests were done with a queue that does CE marking
-only at a sojourn time threshold of 12 ms.  This approximates the behavior in a
-FIFO queue, but since packets are not dropped at the threshold, sojourn times
+Unless otherwise noted, all tests were done with a queue that does CE-only
+marking at a sojourn time threshold of 12 ms.  This approximates the behavior in
+a FIFO queue, but since packets are not dropped at the threshold, sojourn times
 are not clamped like they would be in a FIFO.
 
 All flows use the Reno CCA, because the main focus is on slow start behavior.
@@ -212,95 +212,119 @@ pacing enabled.
 ### One Flow
 
 ![Figure 1a](results/f1a-oneflow-100mbps-20ms-std.png)
-*Figure 1a: One flow, 100 Mbps, 20 ms RTT, standard slow start*
+*Figure 1a: One flow, 100 Mbps, 20 ms RTT, standard slow start
+([log](results/f1a-oneflow-100mbps-20ms-std.txt))*
 
 ![Figure 1b](results/f1b-oneflow-100mbps-20ms-essp.png)
-*Figure 1b: One flow, 100 Mbps, 20 ms RTT, ESSP*
+*Figure 1b: One flow, 100 Mbps, 20 ms RTT, ESSP
+([log](results/f1b-oneflow-100mbps-20ms-essp.txt))*
 
 ---
 
 ![Figure 2a](results/f2a-oneflow-1000mbps-20ms-std.png)
-*Figure 2a: One flow, 1000 Mbps, 20 ms RTT, standard slow start*
+*Figure 2a: One flow, 1000 Mbps, 20 ms RTT, standard slow start
+([log](results/f2a-oneflow-1000mbps-20ms-std.txt))*
 
 ![Figure 2b](results/f2b-oneflow-1000mbps-20ms-essp.png)
-*Figure 2b: One flow, 1000 Mbps, 20 ms RTT, ESSP*
+*Figure 2b: One flow, 1000 Mbps, 20 ms RTT, ESSP
+([log](results/f2b-oneflow-1000mbps-20ms-essp.txt))*
 
 ---
 
 ![Figure 3a](results/f3a-oneflow-10000mbps-20ms-std.png)
-*Figure 3a: One flow, 10000 Mbps, 20 ms RTT, standard slow start*
+*Figure 3a: One flow, 10000 Mbps, 20 ms RTT, standard slow start
+([log](results/f3a-oneflow-10000mbps-20ms-std.txt))*
 
 ![Figure 3b](results/f3b-oneflow-10000mbps-20ms-essp.png)
-*Figure 3b: One flow, 10000 Mbps, 20 ms RTT, ESSP*
+*Figure 3b: One flow, 10000 Mbps, 20 ms RTT, ESSP
+([log](results/f3b-oneflow-10000mbps-20ms-essp.txt))*
 
 ### Two Flow
 
 ![Figure 4a](results/f4a-twoflow-100mbps-20ms-std.png)
-*Figure 4a: Two flow, 100 Mbps, 20 ms RTT, standard slow start*
+*Figure 4a: Two flow, 100 Mbps, 20 ms RTT, standard slow start
+([log](results/f4a-twoflow-100mbps-20ms-std.txt))*
 
 ![Figure 4b](results/f4b-twoflow-100mbps-20ms-essp.png)
-*Figure 4b: Two flow, 100 Mbps, 20 ms RTT, ESSP*
+*Figure 4b: Two flow, 100 Mbps, 20 ms RTT, ESSP
+([log](results/f4b-twoflow-100mbps-20ms-essp.txt))*
 
 ---
 
 ![Figure 5a](results/f5a-twoflow-1000mbps-20ms-std.png)
-*Figure 5a: Two flow, 1000 Mbps, 20 ms RTT, standard slow start*
+*Figure 5a: Two flow, 1000 Mbps, 20 ms RTT, standard slow start
+([log](results/f5a-twoflow-1000mbps-20ms-std.txt))*
 
 ![Figure 5b](results/f5b-twoflow-1000mbps-20ms-essp.png)
-*Figure 5b: Two flow, 1000 Mbps, 20 ms RTT, ESSP*
+*Figure 5b: Two flow, 1000 Mbps, 20 ms RTT, ESSP
+([log](results/f5b-twoflow-1000mbps-20ms-essp.txt))*
 
 ---
 
 ![Figure 6a](results/f6a-twoflow-10000mbps-20ms-std.png)
-*Figure 6a: Two flow, 10000 Mbps, 20 ms RTT, standard slow start*
+*Figure 6a: Two flow, 10000 Mbps, 20 ms RTT, standard slow start
+([log](results/f6a-twoflow-10000mbps-20ms-std.txt))*
 
 ![Figure 6b](results/f6b-twoflow-10000mbps-20ms-essp.png)
-*Figure 6b: Two flow, 10000 Mbps, 20 ms RTT, ESSP*
+*Figure 6b: Two flow, 10000 Mbps, 20 ms RTT, ESSP
+([log](results/f6a-twoflow-10000mbps-20ms-std.txt))*
 
 ### Low RTT
 
 ![Figure 7a](results/f7a-oneflow-100mbps-1ms-std.png)
-*Figure 7a: One flow, 100 Mbps, 1 ms RTT, standard slow start*
+*Figure 7a: One flow, 100 Mbps, 1 ms RTT, standard slow start
+([log](results/f7a-oneflow-100mbps-1ms-std.txt))*
 
 ![Figure 7b](results/f7b-oneflow-100mbps-1ms-essp.png)
-*Figure 7b: One flow, 100 Mbps, 1 ms RTT, ESSP*
+*Figure 7b: One flow, 100 Mbps, 1 ms RTT, ESSP
+([log](results/f7b-oneflow-100mbps-1ms-essp.txt))*
 
 ---
 
 ![Figure 8a](results/f8a-oneflow-1000mbps-1ms-std.png)
-*Figure 8a: One flow, 1000 Mbps, 1 ms RTT, standard slow start*
+*Figure 8a: One flow, 1000 Mbps, 1 ms RTT, standard slow start
+([log](results/f8a-oneflow-1000mbps-1ms-std.png))*
 
 ![Figure 8b](results/f8b-oneflow-1000mbps-1ms-essp.png)
-*Figure 8b: One flow, 1000 Mbps, 1 ms RTT, ESSP*
+*Figure 8b: One flow, 1000 Mbps, 1 ms RTT, ESSP
+([log](results/f8b-oneflow-1000mbps-1ms-essp.txt))*
 
 ### High RTT
 
 ![Figure 9a](results/f9a-oneflow-100mbps-160ms-std.png)
-*Figure 9a: One flow, 100 Mbps, 160 ms RTT, standard slow start*
+*Figure 9a: One flow, 100 Mbps, 160 ms RTT, standard slow start
+([log](results/f9a-oneflow-100mbps-160ms-std.txt))*
 
 ![Figure 9b](results/f9b-oneflow-100mbps-160ms-essp.png)
-*Figure 9b: One flow, 100 Mbps, 160 ms RTT, ESSP*
+*Figure 9b: One flow, 100 Mbps, 160 ms RTT, ESSP
+([log](results/f9b-oneflow-100mbps-160ms-essp.txt))*
 
 ---
 
 ![Figure 10a](results/f10a-oneflow-1000mbps-160ms-std.png)
-*Figure 10a: One flow, 1000 Mbps, 160 ms RTT, standard slow start*
+*Figure 10a: One flow, 1000 Mbps, 160 ms RTT, standard slow start
+([log](results/f10a-oneflow-1000mbps-160ms-std.txt))*
 
 ![Figure 10b](results/f10b-oneflow-1000mbps-160ms-essp.png)
-*Figure 10b: One flow, 1000 Mbps, 160 ms RTT, ESSP*
+*Figure 10b: One flow, 1000 Mbps, 160 ms RTT, ESSP
+([log](results/f10b-oneflow-1000mbps-160ms-essp.txt))*
 
 ### SCE Marking
 
 ![Figure 11a](results/f11a-oneflow-100mbps-80ms-essp.png)
-*Figure 11a: One non-SCE flow, 100 Mbps, 80 ms RTT, ESSP, DelTiC AQM*
+*Figure 11a: One non-SCE flow, 100 Mbps, 80 ms RTT, ESSP, DelTiC AQM
+([log](results/f11a-oneflow-100mbps-80ms-essp.txt))*
 
 ![Figure 11b](results/f11b-oneflow-100mbps-80ms-essp-sce.png)
-*Figure 11b: One SCE flow, 100 Mbps, 80 ms RTT, ESSP, DelTiC AQM*
+*Figure 11b: One SCE flow, 100 Mbps, 80 ms RTT, ESSP, DelTiC AQM
+([log](results/f11b-oneflow-100mbps-80ms-essp-sce.txt))*
 
 ---
 
 ![Figure 12a](results/f12a-oneflow-1000mbps-80ms-essp.png)
-*Figure 12a: One non-SCE flow, 1000 Mbps, 80 ms RTT, ESSP, DelTiC AQM*
+*Figure 12a: One non-SCE flow, 1000 Mbps, 80 ms RTT, ESSP, DelTiC AQM
+([log](results/f12a-oneflow-1000mbps-80ms-essp.txt))*
 
 ![Figure 12b](results/f12b-oneflow-1000mbps-80ms-essp-sce.png)
-*Figure 12b: One SCE flow, 1000 Mbps, 80 ms RTT, ESSP, DelTiC AQM*
+*Figure 12b: One SCE flow, 1000 Mbps, 80 ms RTT, ESSP, DelTiC AQM
+([log](results/f12b-oneflow-1000mbps-80ms-essp-sce.txt))*
