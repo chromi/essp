@@ -205,11 +205,33 @@ marking at a sojourn time threshold of 12 ms.  This approximates the behavior in
 a FIFO queue, but since packets are not dropped at the threshold, sojourn times
 are not clamped like they would be in a FIFO.
 
-All flows use the Reno CCA, because the main focus is on slow start behavior.
-All standard slow start flows have pacing disabled, and all ESSP flows have
-pacing enabled.
+All flows use the Reno CCA, because the main focus is on slow start (SS)
+behavior.  All standard slow start flows have pacing disabled, and all ESSP
+flows have pacing enabled.
 
-### One Flow
+In addition to the plots, there are links to the log files with each of the
+Figure captions.  These show slow start exit times and cwnd, and stage
+information for ESSP.
+
+### One Flow at 20 ms RTT
+
+This series of tests compares standard SS vs ESSP at 20 ms RTT, with three
+different bandwidths: 100 Mbps (Figure 1a/1b), 1000 Mbps (Figure 2a/2b) and 10
+Gbps (Figure 3a/3b).
+
+Comparing Figure 1a (standard) vs Figure 1b (ESSP), we see that standard SS
+exits with a cwnd of 375756 bytes (from the log file), and ESSP exits at 258222,
+much closer to the BDP of 250000 bytes.  Since standard is too high, it's marked
+with CE shortly after SS exit, causing a multiplicative decrease (MD) and loss
+in throughput earlier than necessary.
+
+We also see in the ESSP log files for Figures 1b, 2b and 3b that ESSP is able to
+perform slow start using only its delay trigger, resulting in smaller sojourn
+time excursions in each case than standard SS.
+
+In the 10 Gbps case (Figure 3b), ESSP hasn't quite exited slow start by the end
+of the two second test, but we can see that its exit cwnd would already be very
+close to the BDP of 25 MB.
 
 ![Figure 1a](results/f1a-oneflow-100mbps-20ms-std.png)
 *Figure 1a: One flow, 100 Mbps, 20 ms RTT, standard slow start
@@ -239,37 +261,68 @@ pacing enabled.
 *Figure 3b: One flow, 10000 Mbps, 20 ms RTT, ESSP
 ([log](results/f3b-oneflow-10000mbps-20ms-essp.txt))*
 
-### Two Flow
+### Two Flows at 20 ms RTT
+
+This series of tests **always** starts with an ESSP flow (so it reliably reaches
+BDP), then introduces a second flow at T=10 seconds using either standard SS or
+ESSP.  Figures 1a&1b are at 100 Mbps, Figures 2a&2b are at 1000 Mbps and Figures
+3a&3b are at 10 Gbps.
+
+In each of the results, ESSP induces less queueing delay when the second flow is
+introduced than standard SS, due to its delay trigger.
+
+We see that while the exit cwnd for ESSP in the 100 Mbps and 1000 Mbps cases is
+close to half the capacity, it's lower in the 10 Gbps case.  It's not a goal of
+ESSP for new flows to exit SS at their fair share, but to make good use of the
+available capacity.  We also note that Reno-linear growth is slow and not well
+suited to 10 Gbps at 20 ms RTT, so convergence times are long.  Either CUBIC or
+a scalable congestion control algorithm (CCA) would be better suited to these
+conditions.
 
 ![Figure 4a](results/f4a-twoflow-100mbps-20ms-std.png)
-*Figure 4a: Two flow, 100 Mbps, 20 ms RTT, standard slow start
+*Figure 4a: Two flow, 100 Mbps, 20 ms RTT, ESSP then standard slow start
 ([log](results/f4a-twoflow-100mbps-20ms-std.txt))*
 
 ![Figure 4b](results/f4b-twoflow-100mbps-20ms-essp.png)
-*Figure 4b: Two flow, 100 Mbps, 20 ms RTT, ESSP
+*Figure 4b: Two flow, 100 Mbps, 20 ms RTT, ESSP then ESSP
 ([log](results/f4b-twoflow-100mbps-20ms-essp.txt))*
 
 ---
 
 ![Figure 5a](results/f5a-twoflow-1000mbps-20ms-std.png)
-*Figure 5a: Two flow, 1000 Mbps, 20 ms RTT, standard slow start
+*Figure 5a: Two flow, 1000 Mbps, 20 ms RTT, ESSP then standard slow start
 ([log](results/f5a-twoflow-1000mbps-20ms-std.txt))*
 
 ![Figure 5b](results/f5b-twoflow-1000mbps-20ms-essp.png)
-*Figure 5b: Two flow, 1000 Mbps, 20 ms RTT, ESSP
+*Figure 5b: Two flow, 1000 Mbps, 20 ms RTT, ESSP then ESSP
 ([log](results/f5b-twoflow-1000mbps-20ms-essp.txt))*
 
 ---
 
 ![Figure 6a](results/f6a-twoflow-10000mbps-20ms-std.png)
-*Figure 6a: Two flow, 10000 Mbps, 20 ms RTT, standard slow start
+*Figure 6a: Two flow, 10000 Mbps, 20 ms RTT, ESSP then standard slow start
 ([log](results/f6a-twoflow-10000mbps-20ms-std.txt))*
 
 ![Figure 6b](results/f6b-twoflow-10000mbps-20ms-essp.png)
-*Figure 6b: Two flow, 10000 Mbps, 20 ms RTT, ESSP
+*Figure 6b: Two flow, 10000 Mbps, 20 ms RTT, ESSP then ESSP
 ([log](results/f6a-twoflow-10000mbps-20ms-std.txt))*
 
 ### Low RTT
+
+This series of tests compares standard SS vs ESSP at low RTT (1 ms), with two
+different bandwidths: 100 Mbps (Figure 7a/7b) and 1000 Mbps (Figure 8a/8b).
+
+At 1 ms RTT, ESSP is able to use its delay trigger to exit much earlier than
+standard SS, with virtually no decrease in utilization.  With ESSP, the delay
+excursions are smaller, and as we can see in Table 1, slow start exit for ESSP
+is much closer to BDP.
+
+|                               | 100 Mbps     | 1000 Mbps     |
+|-------------------------------|--------------|---------------|
+| BDP                           | 12500 bytes  | 125000 bytes  |
+| Standard slow start exit cwnd | 157108 bytes | 1568908 bytes |
+| ESSP exit cwnd                | 16753 bytes  | 125911 bytes  |
+*Table 1: Comparison of BDP vs standard SS vs ESSP exit cwnd at 1 ms RTT*
 
 ![Figure 7a](results/f7a-oneflow-100mbps-1ms-std.png)
 *Figure 7a: One flow, 100 Mbps, 1 ms RTT, standard slow start
@@ -291,6 +344,23 @@ pacing enabled.
 
 ### High RTT
 
+This series of tests compares standard SS vs ESSP at high RTT (160 ms), with two
+different bandwidths: 100 Mbps (Figure 9a/9b) and 1000 Mbps (Figure 10a/10b).
+
+At high RTT, standard SS has the opposite problem that it has at low RTT.
+Rather than exiting late, with a high cwnd, it exits early, with a low cwnd.
+
+At first glance, it might seem that the lower sojourn time excursions for
+standard SS are better than for ESSP, but since standard SS is not reaching
+capacity, the two cannot be compared.
+
+|                               | 100 Mbps       | 1000 Mbps      |
+|-------------------------------|----------------|----------------|
+| BDP                           | 2000000 bytes  | 20000000 bytes |
+| Standard slow start exit cwnd | 375756 bytes   | 3300716 bytes  |
+| ESSP exit cwnd                | 1990610 bytes  | 19813302 bytes |
+*Table 2: Comparison of BDP vs standard SS vs ESSP exit cwnd at 160 ms RTT*
+
 ![Figure 9a](results/f9a-oneflow-100mbps-160ms-std.png)
 *Figure 9a: One flow, 100 Mbps, 160 ms RTT, standard slow start
 ([log](results/f9a-oneflow-100mbps-160ms-std.txt))*
@@ -310,6 +380,15 @@ pacing enabled.
 ([log](results/f10b-oneflow-1000mbps-160ms-essp.txt))*
 
 ### SCE Marking
+
+This series of ESSP-only tests uses the DelTiC AQM, with and without SCE
+marking, at two different bandwidths: 100 Mbps (Figure 11a/11b) and 1000 Mbps
+(Figure 12a/12b).
+
+In both cases, the earlier SCE marking assists ESSP in completing slow start
+sooner, and with lower delay excursions.  At 1000 Mbps (Figure 12a), we see that
+with CE marking, ESSP has not completed after 5 seconds, whereas it exits at 2
+seconds with SCE marking (Figure 12b).
 
 ![Figure 11a](results/f11a-oneflow-100mbps-80ms-essp.png)
 *Figure 11a: One non-SCE flow, 100 Mbps, 80 ms RTT, ESSP, DelTiC AQM
