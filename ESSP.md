@@ -1,7 +1,7 @@
 # Extended Slow Start with Pacing (ESSP)
 
 *Jonathan Morton*<br/>
-*August 2024*
+*August 2024, updated July 2025*
 
 ## Introduction
 
@@ -452,7 +452,7 @@ At the time of writing, there is no implementation of ESSP in a full-scale netwo
 
  5.2.2. **Real-Time Congestion Control** - The document notes the difficulty of evaluating the behaviour of real-time protocols, which in general are poorly documented in the public domain.  ESSP's relatively small delay excursions, when compared to standard slow-start, suggest the behaviour is reasonable in this context.
 
- 5.2.3. **Short and Long Flows** - This criterion extends the analysis of 5.1.5 to a hetergeneous traffic environment.  No special problems are expected here.
+ 5.2.3. **Short and Long Flows** - This criterion extends the analysis of 5.1.5 to a heterogeneous traffic environment.  No special problems are expected here.
 
  5.3.1. **Differences with Congestion Control Principles** - The major deviation from RFC 2914, as noted above, is that ESSP undergoes multiple phases of exponential growth, each terminated by a congestion signal of one type or another, rather than just one.  This is an extension of the principle employed by HyStart++, which nominally uses two such phases.  Each congestion episode causes ESSP to probe for the BDP more cautiously, until it has sufficient confidence in the result to transition to congestion avoidance.  We believe this is fully congruent with the principles of congestion control, even if it has not been explicitly envisioned in the text of prior specifications.
 
