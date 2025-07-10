@@ -141,7 +141,7 @@ that the delay criterion only ever triggers when the link has fully saturated,
 and the theoretical benefit of the increased pacing rate for early detection of
 queuing is lost.  Because the *cwnd targeting* works so well with this
 threshold, as described above, we do not apply an artificial "ceiling" to the
-delay trigger as HyStart++ does.  We also no not apply an artificial "floor", on
+delay trigger as HyStart++ does.  We also do not apply an artificial "floor", on
 the grounds that this would only apply on very short paths, where an early exit
 from slow-start is relatively harmless due to the high performance of ordinary
 congestion-avoidance algorithms in this case.
@@ -407,3 +407,84 @@ seconds with SCE marking (Figure 12b).
 ![Figure 12b](results/f12b-oneflow-1000mbps-80ms-essp-sce.png)
 *Figure 12b: One SCE flow, 1000 Mbps, 80 ms RTT, ESSP, DelTiC AQM
 ([log](results/f12b-oneflow-1000mbps-80ms-essp-sce.txt))*
+
+## RFC 9743 Compliance
+
+RFC 9743 (aka RFC 5033bis) is a BCP document which outlines what criteria congestion control schemes should meet, in order to be interoperable with existing congestion control schemes on the Internet.  It is specifically applicable to congestion control schemes *not* compliant with RFC 2914.  The latter document has this to say about the slow-start phase of TCP:
+```
+9.1.  Slow-start.
+
+   The TCP sender can not open a new connection by sending a large burst
+   of data (e.g., a receiver's advertised window) all at once.  The TCP
+   sender is limited by a small initial value for the congestion window.
+   During slow-start, the TCP sender can increase its sending rate by at
+   most a factor of two in one roundtrip time.  Slow-start ends when
+   congestion is detected, or when the sender's congestion window is
+   greater than the slow-start threshold ssthresh.
+
+   An issue that potentially affects global congestion control, and
+   therefore has been explicitly addressed in the standards process,
+   includes an increase in the value of the initial window
+   [RFC2414,RFC2581].
+
+   Issues that have not been addressed in the standards process, and are
+   generally considered not to require standardization, include such
+   issues as the use (or non-use) of rate-based pacing, and mechanisms
+   for ending slow-start early, before the congestion window reaches
+   ssthresh.  Such mechanisms result in slow-start behavior that is as
+   conservative or more conservative than standard TCP.
+```
+At first glance, ESSP could rely on the provision for "ending slow-start early" mentioned in the last paragraph, because it is sensitive to the implicit congestion signal of increased delay as well as to the explicit signals of packet loss and ECN marks.  However, ESSP goes through *multiple* phases of exponential growth whilst remaining in the slow-start phase, rather than "ending" slow-start as soon as any of the congestion signals appear as required by the first paragraph.  This is not strictly RFC 2914 compliant, so we must now consider what RFC 9743 says.
+
+At the time of writing, there is no implementation of ESSP in a full-scale network stack.  This must therefore be a *preliminary* analysis based on theoretical and simulated characteristics:
+
+	5.1.1. **Protection Against Congestion Collapse** - A high packet loss (or other congestion signal) rate will cause ESSP to exit the slow-start phase within a finite number of round-trips, as each congestion episode causes `K` and `KK` to be advanced and these will eventually cause the exit criterion to be met, regardless of the computed congestion window.  Subsequently, the behaviour of the selected congestion-avoidance algorithm and underlying TCP can be relied upon.
+
+	5.1.2. **Protection Against Bufferbloat** - This is a key goal of ESSP, and is achieved through delay sensitivity, in addition to responding appropriately to explicit congestion signals.  Each congestion episodes causes ESSP to reduce cwnd to a running estimate of the true BDP.  ESSP therefore does not materially contribute to bufferbloat.
+
+	5.1.3. **Protection Against High Packet Loss** - See above re. congestion collapse.
+
+	5.1.4. **Fairness Within the Proposed Congestion Control Algorithm** - This is mainly a concern of congestion-avoidance algorithms, which ESSP is not.  The simulation test results above suggest that ESSP behaves reasonably when it encounters other traffic in congestion-avoidance at the same bottleneck, and there is no particular cause to believe it would break down when encountering other flows in the slow-start phase, including other ESSP flows.
+
+	5.1.5. **Short Flows** - This criterion specifically addresses slow-start behaviour, and it should be noted that ESSP typically makes the slow-start phase last considerably longer than standard slow-start does - though this relationship is reversed when the path RTT is much lower than the threshold at which explicit congestion signals are emitted by the bottleneck queue.  ESSP is likely to increase the throughput - and therefore the network load - of the flows it controls, during and immediately after its operation.  The simulation results do explicitly test a single ESSP startup against a single established flow, with favourable results.  More extensive testing would be appropriate with real network stacks rather than a simulation.
+
+	5.2.1. **Existing General-Purpose Congestion Control** - The simulation results above include competition against TCP Reno, which is a standard target.  A more comprehensive evaluation would be appropriate at a later stage.
+
+	5.2.2. **Real-Time Congestion Control** - The document notes the difficulty of evaluating the behaviour of real-time protocols, which in general are poorly documented in the public domain.  ESSP's relatively small delay excursions, when compared to standard slow-start, suggest the behaviour is reasonable in this context.
+
+	5.2.3. **Short and Long Flows** - This criterion extends the analysis of 5.1.5 to a hetergeneous traffic environment.  No special problems are expected here.
+
+	5.3.1. **Differences with Congestion Control Principles** - The major deviation from RFC 2914, as noted above, is that ESSP undergoes multiple phases of exponential growth, each terminated by a congestion signal of one type or another, rather than just one.  This is an extension of the principle employed by HyStart++, which nominally uses two such phases.  Each congestion episode causes ESSP to probe for the BDP more cautiously, until it has sufficient confidence in the result to transition to congestion avoidance.  We believe this is fully congruent with the principles of congestion control, even if it has not been explicitly envisioned in the text of prior specifications.
+
+	5.3.2. **Incremental Deployment** - ESSP requires deployment only at a single TCP sender to be effective, and can interoperate with any existing standards-compliant TCP receiver or network path.  ECN signals are interpreted where present, but are not required for correct operation.  No extra on-the-wire signals are required.  In principle it could be applied to other transport protocols in the same manner.  There are thus no concerns about incremental deployment.
+
+	6.1. **Paths with Tail-Drop Queues** - Where a tail-drop queue is present at the bottleneck, ESSP will respond appropriately to the explicit congestion signal of packet loss (if the queue overflows) and/or the implicit congestion signal of increased delay (if the queue capacity is at least 25% of the underlying BDP).  These conditions are explicitly envisioned in ESSP's design.
+
+	6.2. **Tunnel Behaviour** - ESSP is no more affected by tunnels than the underlying TCP is.
+
+	6.3. **Wired Paths** - The simulated results above assume a stable wired link.
+
+	6.4. **Wireless Paths** - ESSP's multi-phase design should make it less sensitive to the effects of wireless links than the original HyStart is.  If noise in the delay signal causes a poor estimate of the BDP in one phase, it should be improved by the next, and the one after that.  If the delay noise is large in amplitude compared to to the path delay, the BDP may still be mis-estimated at slow-start exit, but this will normally occur on short paths (and the estimated BDP will also be reasonably small) which is a favourable condition for congestion avoidance.
+
+	7.1. **Active Queue Management** - The above simulation results include environments with ECN signals, which are almost always produced by some type of AQM.  The explicit congestion signals thus produced are used as evidence to hasten the BDP estimation process.  A more comprehensive evaluation involving multiple AQM algorithms would be appropriate at a later stage.
+
+	7.2. **Operation with Network Circuit Breakers** - ESSP explicitly probes for the true BDP rather than the maximum achievable throughput, and should therefore be no worse off than standard TCP in such an environment.
+
+	7.3. **Paths with Varying Delay** - ESSP operates during the slow-start phase, which is relatively short-lived and is thus less likely to be subject to secular changes in path delay.  Transitory changes in delay are interpreted as congestion signals, and in general are tolerable.  If there is a *reduction* in the path delay, ESSP will detect this and use it as its new baseline.  A significant *increase* in the path delay may cause ESSP to prematurely exit slow-start without having found the true BDP, leaving it up to congestion-avoidance to cope with the new conditions.
+
+	7.4. **Internet of Things and Constrained Nodes** - It is unlikely that ESSP would be implemented on such a device.  If ESSP is implemented on a sender communicating with such a device, ESSP's operation may be constrained by a small receive window.  When the congestion window exceeds the receive window - which would occur at about the same time as with standard slow-start - the detailed behaviour of the congestion control algorithm becomes moot.
+
+	7.5. **Paths with High Delay** - This is one of ESSP's strong points, in that it probes more robustly for the true BDP than standard slow-start or HyStart.  The simulations above include a scenario with a 160ms path, which is not yet in geosat territory but does illustrate the behaviour on the longest terrestrial paths.
+
+	7.6. **Misbehaving Nodes** - This has not been explicitly considered.  The factors in play will likely be similar to those for HyStart++.
+
+	7.7. **Extreme Packet Reordering** - The behaviour of the underlying TCP will determine whether packet reordering is interpreted as a congestion signal or not, and how RTT is measured.  It is likely that ESSP will choose a conservative congestion window if packet reordering is endemic.  Transient episodes of reordering during slow-start can be tolerated more easily.
+
+	7.8. **Transient Events** - This may not be directly relevant to ESSP.  The underlying TCP may transition from congestion-avoidance back to slow-start in response to some of the events mentioned, allowing ESSP to probe the new path conditions.
+
+	7.9. **Sudden Changes in the Path** - See 7.3 and 7.8 for relevant discussion.
+
+	7.10. **Multipath Transport** - This is a consideration for transport protocols, not individual congestion control algorithms.
+
+	7.11. **Data Centres** - ESSP is likely to work well in this environment, as illustrated by the short-path simulation results above.  When the BDP is particularly small, ESSP does not require a large buffer to avoid packet loss during slow-start.  This would be a major advantage with typical datacentre applications.
+
